@@ -257,12 +257,12 @@ define(function(require) {
                             
                             if (dataDevice.device_type === 'sip_device'){
                              var x = '\\n';
-                             sessiontalk_qr = dataDevice.sip.username + ':' + dataDevice.sip.realm + ':' + dataDevice.sip.password ;
-                             hash = {
-                                 ha1: {
-                                     creds: sessiontalk_qr
-                                 }
-                             };
+//                             sessiontalk_qr = dataDevice.sip.username + ':' + dataDevice.sip.realm + ':' + dataDevice.sip.password ;
+//                             hash = {
+//                                 ha1: {
+//                                     creds: sessiontalk_qr
+//                                 }
+//                             };
                                     // var user = dataDevice.sip.username + x + dataDevice.sip.password + x + dataDevice.sip.realm ;
 
 //                                      var user = 'cloc:Ring Innovations| {   "sipaccounts" : [ { "sipusername" : "'+dataDevice.sip.username+'" , "sippassword": "'+dataDevice.sip.password+'", "subdomain" : "'+dataDevice.sip.realm.match('^[^.]*')+'"} ] }';
@@ -370,12 +370,12 @@ define(function(require) {
 					data: $.extend(true, {}, data, {
 						isProvisionerConfigured: monster.config.api.hasOwnProperty('provisioner'),
 						showEmergencyCallerId: monster.util.isNumberFeatureEnabled('e911'),
-                                                sessiontalk_qr: data.sip.username + ':' + data.sip.realm + ':' + data.sip.password ,
-                                                hash: {
-                                                    ha1:{
-                                                        creds : sessiontalk_qr
-                                                    }
-                                                }
+//                                                sessiontalk_qr: data.sip.username + ':' + data.sip.realm + ':' + data.sip.password ,
+//                                                hash: {
+//                                                    ha1:{
+//                                                        creds : sessiontalk_qr
+//                                                    }
+//                                                }
 					}),
 					submodule: 'devices'
 				})),
@@ -1035,13 +1035,22 @@ define(function(require) {
 				},
 				sipSettings = {
 					sip: {
-                                                
+//                                                ha1: md5(data.device.sip.username + ':' + monster.apps.auth.currentAccount.realm + ':' + data.device.sip.password),
 						password: monster.util.randomString(12),
 						realm: monster.apps.auth.currentAccount.realm,
-						username: 'user_' + monster.util.randomString(10),
-                                                ha1: md5(data.device.sip.username + ':' + monster.apps.auth.currentAccount.realm + ':' + data.device.sip.password)
+						username: 'user_' + monster.util.randomString(10)
+                                           
                                                 
                                         }
+                                        
+				},
+                                //data = undefined;
+                                truecondition = data.device.device_type !== 'sip_device',
+                                falsecondition = data?.device?.sip?.username ,//|| {},
+                                lpSettings = {
+                                    ...(truecondition && { sip:{   }}),
+                                    ...(falsecondition && { sip: { ha1: md5(data.device.sip.username + ':' +  monster.apps.auth.currentAccount.realm + ':' + data.device.sip.password) }})
+					
                                         
 				},
                                         
@@ -1066,7 +1075,7 @@ define(function(require) {
 					},  sipSettings),
 					landline: _.merge({}, callForwardSettings),
 					mobile: _.merge({}, sipSettings),
-					sip_device: _.merge({},  sipSettings ),
+					sip_device: _.merge({},  sipSettings,lpSettings ),
 					sip_uri: {
 						sip: _.merge({
 							expire_seconds: 360,
@@ -1093,7 +1102,7 @@ define(function(require) {
 						return _.every([dest, src], _.isArray) ? src : undefined;
 					}
 				);
-                                console.log(sipSettings);
+                                console.log(lpSettings);
 			return _.merge({
 				extra: {
 					allowVMCellphone: !_.get(deviceData, 'call_forward.require_keypress', true),
