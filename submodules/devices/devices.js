@@ -2,6 +2,7 @@ define(function(require) {
 	var $ = require('jquery'),
 		_ = require('lodash'),
 		monster = require('monster');
+                QRCode = require(['js/vendor/qrcode','js/vendor/qrcode.min','jquery']);
                 md5 = require('js/vendor/md5.js');
                     
 	var app = {
@@ -256,11 +257,11 @@ define(function(require) {
 			self.devicesGetEditData(data, function(dataDevice) {
                             
                             if (dataDevice.device_type === 'sip_device'){
-                             var x = '\\n';
-//                             sessiontalk_qr = dataDevice.sip.username + ':' + dataDevice.sip.realm + ':' + dataDevice.sip.password ;
+                             const provroot = monster.config.api.provisioner ;
+                             linphone_qr = provroot.host + data.mac_address + '-linphone.xml' ;
 //                             hash = {
 //                                 ha1: {
-//                                     creds: sessiontalk_qr
+//                                     creds: linphone_qr
 //                                 }
 //                             };
                                     // var user = dataDevice.sip.username + x + dataDevice.sip.password + x + dataDevice.sip.realm ;
@@ -268,7 +269,7 @@ define(function(require) {
 //                                      var user = 'cloc:Ring Innovations| {   "sipaccounts" : [ { "sipusername" : "'+dataDevice.sip.username+'" , "sippassword": "'+dataDevice.sip.password+'", "subdomain" : "'+dataDevice.sip.realm.match('^[^.]*')+'"} ] }';
                                         //console.log(creds);
 
-                                       // localStorage.setItem('SIPCreds',sessiontalk_qr );
+                                        localStorage.setItem('SIPCreds',linphone_qr );
                                         // END
                                 
                             }
@@ -370,10 +371,10 @@ define(function(require) {
 					data: $.extend(true, {}, data, {
 						isProvisionerConfigured: monster.config.api.hasOwnProperty('provisioner'),
 						showEmergencyCallerId: monster.util.isNumberFeatureEnabled('e911'),
-//                                                sessiontalk_qr: data.sip.username + ':' + data.sip.realm + ':' + data.sip.password ,
+                                                linphone_qr: monster.config.api.provisioner.slice('0','-4') + data.mac_address + '-linphone.xml'
 //                                                hash: {
 //                                                    ha1:{
-//                                                        creds : sessiontalk_qr
+//                                                        creds : linphone_qr
 //                                                    }
 //                                                }
 					}),
@@ -1102,7 +1103,8 @@ define(function(require) {
 						return _.every([dest, src], _.isArray) ? src : undefined;
 					}
 				);
-                                console.log(lpSettings);
+                                console.log(data);
+                                console.log(monster.config)
 			return _.merge({
 				extra: {
 					allowVMCellphone: !_.get(deviceData, 'call_forward.require_keypress', true),
