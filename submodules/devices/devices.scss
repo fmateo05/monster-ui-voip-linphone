@@ -27,6 +27,15 @@
 #devices_container .devices-header .dropdown {
 	vertical-align: bottom;
 }
+#qrcode {
+       
+  position: absolute;  
+  margin-top: -225px;
+  margin-left: 15px;
+  right: 20px;
+  
+
+}
 
 #devices_container .devices-header .add-device {
 	display: block;

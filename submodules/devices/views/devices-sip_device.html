@@ -90,6 +90,7 @@
 	<div class="content">
 		<form id="form_device" class="form-horizontal">
 			<div class="tabs-section active" data-section="basic">
+                            
 				<div class="control-group">
 					<label class="control-label" for="name">{{ i18n.devices.sip_device.deviceName }}</label>
                                             
@@ -97,6 +98,8 @@
 						<input type="text" align="right" id="name" name="name" value="{{name}}">
 					</div>
 				</div>
+                            
+                                
 				{{#if provision}}
 				<div class="control-group">
 					<label class="control-label" for="mac_address">{{ i18n.devices.sip_device.macAddress }}</label>
@@ -163,7 +166,16 @@
 						</div>
 					</div>
                                             
-                                        <div class="sips-right clearfix" align="right" id="qrcode">
+                                        
+                                    
+                                     <div class="control-group">
+					<label class="control-label">{{ i18n.devices.hash.ha1 }}</label>
+					<div class="controls">
+						<!-- <span class="displayed-realm">{{ linphone_qr }}</span>-->
+                                                <span class="displayed-realm">{{ sip.ha1 }}</span>
+					</div>
+				</div>
+                                    <div class="sips-right clearfix"  id="qrcode">
                                                                 <script type="text/javascript">
                                                                         var barcode = '{{{linphone_qr}}}';
                                                                         new QRCode(document.getElementById("qrcode"), {
@@ -176,15 +188,6 @@
                                                                         });
                                                                 </script>
                                                 </div>
-                                    
-                                     <div class="control-group">
-					<label class="control-label">{{ i18n.devices.hash.ha1 }}</label>
-					<div class="controls">
-						<!-- <span class="displayed-realm">{{ linphone_qr }}</span>-->
-                                                <span class="displayed-realm">{{ sip.ha1 }}</span>
-					</div>
-				</div>
-                                    
 				</div>
                         
 			{{/if}}
