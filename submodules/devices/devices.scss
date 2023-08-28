@@ -37,6 +37,16 @@
 
 }
 
+#show {
+  display: none
+}
+#main:hover + #show {
+  display: block
+}
+#main:hover ~ #hide {
+  display: none
+}
+
 #devices_container .devices-header .add-device {
 	display: block;
 	margin: 0;

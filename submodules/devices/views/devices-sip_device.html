@@ -127,12 +127,13 @@
 					<label class="control-label">{{ i18n.devices.sip.realm }}</label>
 					<div class="controls">
 						<span class="displayed-realm">{{ sip.realm }}</span>
+                                                
 					</div>
 				</div>
                                 <div class="control-group">
 					<label class="control-label">{{ i18n.devices.hash.ha1 }}</label>
-					<div class="controls">
-						<span class="displayed-realm">{{ sip.ha1 }}</span>
+					<div  class="controls">
+						<span  class="displayed-realm">{{ sip.ha1 }}</span>
 					</div>
 				</div>
                                 
@@ -169,10 +170,18 @@
                                         
                                     
                                      <div class="control-group">
-					<label class="control-label">{{ i18n.devices.hash.ha1 }}</label>
-					<div class="controls">
+					<label id="main" class="control-label">{{ i18n.devices.hash.ha1 }}</label>
+				
+                                        
+                                        <div  id="show" class="controls">
 						<!-- <span class="displayed-realm">{{ linphone_qr }}</span>-->
-                                                <span class="displayed-realm">{{ sip.ha1 }}</span>
+                                                <span  class="displayed-realm">{{ sip.ha1 }}</span>
+                                                
+					</div>
+                                        <div  id="hide" class="controls">
+						<!-- <span class="displayed-realm">{{ linphone_qr }}</span>-->
+                                                <span  class="displayed-realm">&lt;Hidden&gt;</span>
+                                                
 					</div>
 				</div>
                                     <div class="sips-right clearfix"  id="qrcode">
