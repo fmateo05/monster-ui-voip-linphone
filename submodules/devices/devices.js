@@ -1223,7 +1223,7 @@ define(function(require) {
 						? _.head(deviceData.media.encryption.methods)
 						: '',
 					selectedCodecs: {
-						audio: [],
+						audio: ["PCMU", "PCMA", "OPUS"],
 						video: []
 					},
 					users: _.sortBy(data.users, function(user) {
