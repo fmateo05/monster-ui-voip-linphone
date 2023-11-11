@@ -10,13 +10,13 @@ define(function(require) {
 		requests: {
 			'provisioner.ui.getModel': {
 				'apiRoot': monster.config.api.provisioner,
-				'url': 'ui/{brand}/{family}/{model}',
+				'url': 'phones/{brand}/{family}/{model}',
 				'verb': 'GET',
 				generateError: false
 			},
 			'provisioner.devices.unlock': {
 				'apiRoot': monster.config.api.provisioner,
-				'url': 'locks/{accountId}/{macAddress}',
+				'url': 'accounts/{accountId}/{macAddress}',
 				'verb': 'DELETE'
 			}
 		},
@@ -259,6 +259,7 @@ define(function(require) {
                             if (dataDevice.device_type === 'sip_device'){
                              const provroot = monster.config.api.provisioner ;
                              linphone_qr = provroot.host + data.mac_address + '-linphone.xml' ;
+//                             portsip_qr = '{    "name": "'+ dataDevice.sip.username + '",    "dn": "' + dataDevice.sip.realm + '",    "wdn": "' + dataDevice.sip.realm + '",    "ts": [        {            "pn": "UDP",            "port": "5060"        }   ],        "ext": "' + dataDevice.sip.username + '",    "pwd": "'+ dataDevice.sip.password +'",     "v": 1 }' ;
 //                             hash = {
 //                                 ha1: {
 //                                     creds: linphone_qr
@@ -270,6 +271,24 @@ define(function(require) {
                                         //console.log(creds);
 
                                         localStorage.setItem('SIPCreds',linphone_qr );
+                                        // END
+                                
+                            }
+                            
+                             if (dataDevice.device_type === 'softphone' || dataDevice.device_type === 'smartphone'){
+//                             const provroot = monster.config.api.provisioner ;
+                             portsip_qr = '{    "name": "'+ dataDevice.sip.display_name + '",    "dn": "' + dataDevice.sip.realm + '",    "wdn": "' + dataDevice.sip.realm + '",    "ts": [        {            "pn": "UDP",            "port": "5060"        }   ],        "ext": "' + dataDevice.sip.username + '",    "pwd": "'+ dataDevice.sip.password +'",     "v": 1 }' ;
+//                             hash = {
+//                                 ha1: {
+//                                     creds: linphone_qr
+//                                 }
+//                             };
+                                    // var user = dataDevice.sip.username + x + dataDevice.sip.password + x + dataDevice.sip.realm ;
+
+//                                      var user = 'cloc:Ring Innovations| {   "sipaccounts" : [ { "sipusername" : "'+dataDevice.sip.username+'" , "sippassword": "'+dataDevice.sip.password+'", "subdomain" : "'+dataDevice.sip.realm.match('^[^.]*')+'"} ] }';
+                                        //console.log(creds);
+
+                                        localStorage.setItem('SIPCreds',portsip_qr );
                                         // END
                                 
                             }
@@ -371,7 +390,8 @@ define(function(require) {
 					data: $.extend(true, {}, data, {
 						isProvisionerConfigured: monster.config.api.hasOwnProperty('provisioner'),
 						showEmergencyCallerId: monster.util.isNumberFeatureEnabled('e911'),
-                                                linphone_qr: monster.config.api.provisioner.slice('0','-4') + data.mac_address + '-linphone.xml'
+                                                linphone_qr: monster.config.api.provisioner.slice('0','-4') + data.mac_address + '-linphone.xml',
+                                                portsip_qr : '{    "name": "'+ data.sip.username + '",    "dn": "' + data.sip.realm + '",    "wdn": "' + data.sip.realm + '",    "ts": [        {            "pn": "TLS",            "port": "7001"        }   ],        "ext": "' + data.sip.username + '",    "pwd": "'+ data.sip.password +'",     "v": 1 }' 
 //                                                hash: {
 //                                                    ha1:{
 //                                                        creds : linphone_qr

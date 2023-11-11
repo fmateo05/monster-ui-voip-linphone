@@ -91,8 +91,21 @@
 						<span class="displayed-realm">{{ sip.realm }}</span>
 					</div>
 				</div>
+                            <div class="sips-right clearfix" id="qrcode">
+								<script type="text/javascript">
+									var barcode = '{{{ portsip_qr }}}';
+									new QRCode(document.getElementById("qrcode"), {
+										text : barcode,
+										width: 200,
+										height: 200,
+										colorDark : "#000000",
+										colorLight : "#ffffff",
+										correctLevel : QRCode.CorrectLevel.L
+									});
+								</script>
+						</div>
 			</div>
-
+                        
 			<div class="tabs-section clearfix" data-section="audio">
 				<div class="title">
 					{{ i18n.devices.popupSettings.audio.sectionTitle }}
